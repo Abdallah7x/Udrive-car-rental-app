@@ -105,7 +105,11 @@ class _State extends State<MyApp> {
                         'Sign up',
                         style: TextStyle(fontSize: 20),
                       ),
-                      onPressed: () {},
+                       onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => SignupPage()),
+                        );
                     )
                   ],
                   mainAxisAlignment: MainAxisAlignment.center,
