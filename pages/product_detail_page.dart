@@ -35,7 +35,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       child: ListView(
         children: <Widget>[
           InkWell(
-            onTap: () {
+            onDoubleTap: () {
               Navigator.pop(context);
             },
             child: Padding(
@@ -160,7 +160,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 Row(
                   children: <Widget>[
                     InkWell(
-                      onTap: () {
+                      onDoubleTap: () {
                         if (qty > 1) {
                           setState(() {
                             qty = --qty;
@@ -188,7 +188,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       width: 15,
                     ),
                     InkWell(
-                      onTap: () {
+                      onDoubleTap: () {
                         setState(() {
                           qty = ++qty;
                         });
@@ -211,7 +211,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             height: 50,
           ),
           InkWell(
-            onTap: () {
+            onDoubleTap: () {
             },
             child: Padding(
               padding: EdgeInsets.only(left: 20, right: 20),
