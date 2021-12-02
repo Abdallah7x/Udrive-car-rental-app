@@ -212,7 +212,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           ),
           InkWell(
             onTap: () {
-              // your add cart function here
             },
             child: Padding(
               padding: EdgeInsets.only(left: 20, right: 20),
