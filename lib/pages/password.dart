@@ -23,10 +23,10 @@ class _passwordState extends State<password> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        //body
+      
         body: Padding(
             padding: const EdgeInsets.all(16.0),
-            //form
+           
             child: Form(
                 key: _formKey,
                 child: Column(children: <Widget>[
@@ -53,7 +53,7 @@ class _passwordState extends State<password> {
                         ),
                       )),
 
-                  //styling
+              
                   SizedBox(
                     height: MediaQuery.of(context).size.width * 0.1,
                   ),
@@ -61,14 +61,13 @@ class _passwordState extends State<password> {
                     decoration: InputDecoration(labelText: 'E-Mail'),
                     keyboardType: TextInputType.emailAddress,
                     onFieldSubmitted: (value) {
-                      //Validator
+                      
                     },
                   ),
-                  //box styling
                   SizedBox(
                     height: MediaQuery.of(context).size.width * 0.1,
                   ),
-                  //text input
+               
                   TextFormField(
                     decoration: InputDecoration(labelText: ' New Password'),
                     keyboardType: TextInputType.emailAddress,
