@@ -1,121 +1,158 @@
+import 'package:drive/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'signup.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: MyApp(),
-  ));
-}
-
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   @override
-  _State createState() => _State();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: HomePage(),
+      theme: ThemeData(
+        brightness: Brightness.dark,
+      ),
+    );
+  }
 }
 
-class _State extends State<MyApp> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  var _formKey = GlobalKey<FormState>();
+  var isLoading = false;
+
+  void _submit() {
+    final isValid = _formKey.currentState.validate();
+    if (!isValid) {
+      return;
+    }
+    _formKey.currentState.save();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        //body
         body: Padding(
-            padding: EdgeInsets.all(10),
-            child: ListView(
-              children: <Widget>[
-                Container(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.all(10),
-                    child: Text(
-                      'Udrive',
-                      style: TextStyle(
-                          color: Colors.blue.shade900,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 30),
-                    )),
-                Container(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.all(10),
-                    child: Text(
-                      'Sign in',
-                      style: TextStyle(
-                        color: Colors.blue.shade900,
-                        fontSize: 20,
-                      ),
-                    )),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  child: TextField(
-                    controller: nameController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'E-mail',
-                      focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.blue.shade900, width: 2.0),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                  child: TextField(
-                    obscureText: true,
-                    controller: passwordController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Password',
-                      focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.blue.shade900, width: 2.0),
-                      ),
-                    ),
-                  ),
-                ),
-                FlatButton(
-                  onPressed: () {
-                    //forgot password screen
-                  },
-                  textColor: Colors.blue.shade900,
-                  child: Text('Forgot Password'),
-                ),
-                Container(
-                    height: 50,
-                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.blue.shade900),
-                      ),
-                      child: Text('Login'),
-                      onPressed: () {
-                        print(nameController.text);
-                        print(passwordController.text);
-                      },
-                    )),
-                Container(
-                    child: Row(
-                  children: <Widget>[
-                    Text(
-                      'You do not have an account?',
-                      style: TextStyle(color: Colors.blue.shade900),
-                    ),
-                    FlatButton(
-                      textColor: Colors.blue.shade900,
+            padding: const EdgeInsets.all(16.0),
+            //form
+            child: Form(
+                key: _formKey,
+                child: Column(children: <Widget>[
+                  Container(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.all(10),
+                      constraints: BoxConstraints.tightForFinite(),
                       child: Text(
-                        'Sign up',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => SignupPage()),
-                        );
-                    )
-                  ],
-                  mainAxisAlignment: MainAxisAlignment.center,
-                ))
-              ],
-            )));
+                        'Udrive',
+                        style: TextStyle(
+                            color: Colors.blue.shade900,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 30),
+                      )),
+                  Container(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.all(10),
+                      constraints: BoxConstraints.tightForFinite(),
+                      child: Text(
+                        'Sign in',
+                        style: TextStyle(
+                          color: Colors.blue.shade900,
+                          fontSize: 22,
+                        ),
+                      )),
+
+                  //styling
+                  SizedBox(
+                    height: MediaQuery.of(context).size.width * 0.1,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'E-Mail'),
+                    keyboardType: TextInputType.emailAddress,
+                    onFieldSubmitted: (value) {
+                      //Validator
+                    },
+                    validator: (value) {
+                      if (value.isEmpty ||
+                          !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              .hasMatch(value)) {
+                        return 'Enter a valid email!';
+                      }
+                      return null;
+                    },
+                  ),
+                  //box styling
+                  SizedBox(
+                    height: MediaQuery.of(context).size.width * 0.1,
+                  ),
+                  //text input
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Password'),
+                    keyboardType: TextInputType.emailAddress,
+                    onFieldSubmitted: (value) {},
+                    obscureText: true,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Enter a valid password!';
+                      }
+                      return null;
+                    },
+                  ),
+                  FlatButton(
+                    onPressed: () {
+                      //forgot password screen
+                    },
+                    textColor: Colors.blue.shade900,
+                    child: Text('Forgot Password'),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.width * 0.1,
+                  ),
+
+                  Container(
+                      height: 50,
+                      width: 800,
+                      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.blue.shade900),
+                        ),
+                        child: Text('Login'),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => productPage()),
+                          );
+                        },
+                      )),
+                  Container(
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          'You do not have an account?',
+                          style: TextStyle(color: Colors.blue.shade900),
+                        ),
+                        FlatButton(
+                          textColor: Colors.blue.shade900,
+                          child: Text(
+                            'Sign up',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignupPage()),
+                            );
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+                ]))));
   }
 }
