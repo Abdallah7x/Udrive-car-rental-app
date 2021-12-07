@@ -192,7 +192,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         setState(() {
                           qty = ++qty;
                         });
-                        // minus here
+                        // minus icon
                       },
                       child: Container(
                         width: 25,
