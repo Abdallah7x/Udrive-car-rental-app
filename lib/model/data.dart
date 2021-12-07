@@ -1,7 +1,40 @@
 import 'package:flutter/material.dart';
 
 List menus = ["Suv", "Cross over", "Sedan", "coupe", "exiotics"];
-
+List users = [
+  {
+    "id": 1,
+    "name": "Ahmed Said",
+   
+    
+    "Email": "Ahmed@gmail",
+    
+  },
+   {
+    "id": 2,
+    "name": "Kamal Ahmed",
+   
+    
+    "Email": "Kamal@gmail",
+    
+  },
+   {
+    "id": 3,
+    "name": "Maryam Maged",
+   
+    
+    "Email": "Maryam@gmail",
+    
+  },
+   {
+    "id": 4,
+    "name": "Pierre Malak",
+   
+    
+    "Email": "Pierre@gmail",
+    
+  }
+];
 List items = [
   {
     "id": 1,
