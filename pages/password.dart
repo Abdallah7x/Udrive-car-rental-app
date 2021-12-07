@@ -1,14 +1,14 @@
 import 'package:drive/pages/home_page.dart';
-import 'package:drive/pages/password.dart';
+import 'package:drive/pages/login.dart';
 import 'package:flutter/material.dart';
 import 'signup.dart';
 
-class HomePage extends StatefulWidget {
+class password extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _passwordState createState() => _passwordState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _passwordState extends State<password> {
   var _formKey = GlobalKey<FormState>();
   var isLoading = false;
 
@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
                       padding: EdgeInsets.all(10),
                       constraints: BoxConstraints.tightForFinite(),
                       child: Text(
-                        'Sign in',
+                        'Set new password',
                         style: TextStyle(
                           color: Colors.blue.shade900,
                           fontSize: 22,
@@ -63,14 +63,6 @@ class _HomePageState extends State<HomePage> {
                     onFieldSubmitted: (value) {
                       //Validator
                     },
-                    validator: (value) {
-                      if (value.isEmpty ||
-                          !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                              .hasMatch(value)) {
-                        return 'Enter a valid email!';
-                      }
-                      return null;
-                    },
                   ),
                   //box styling
                   SizedBox(
@@ -78,27 +70,18 @@ class _HomePageState extends State<HomePage> {
                   ),
                   //text input
                   TextFormField(
-                    decoration: InputDecoration(labelText: 'Password'),
+                    decoration: InputDecoration(labelText: ' New Password'),
                     keyboardType: TextInputType.emailAddress,
                     onFieldSubmitted: (value) {},
                     obscureText: true,
                     validator: (value) {
                       if (value.isEmpty) {
-                        return 'Enter a valid password!';
+                        return 'Enter a password!';
                       }
                       return null;
                     },
                   ),
-                  FlatButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => password()),
-                      );
-                    },
-                    textColor: Colors.blue.shade900,
-                    child: Text('Forgot Password'),
-                  ),
+
                   SizedBox(
                     height: MediaQuery.of(context).size.width * 0.1,
                   ),
@@ -112,39 +95,14 @@ class _HomePageState extends State<HomePage> {
                           backgroundColor:
                               MaterialStateProperty.all(Colors.blue.shade900),
                         ),
-                        child: Text('Login'),
+                        child: Text('Submit'),
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => productPage()),
+                            MaterialPageRoute(builder: (context) => HomePage()),
                           );
                         },
                       )),
-                  Container(
-                    child: Row(
-                      children: <Widget>[
-                        Text(
-                          'You do not have an account?',
-                          style: TextStyle(color: Colors.blue.shade900),
-                        ),
-                        FlatButton(
-                          textColor: Colors.blue.shade900,
-                          child: Text(
-                            'Sign up',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SignupPage()),
-                            );
-                          },
-                        )
-                      ],
-                    ),
-                  ),
                 ]))));
   }
 }
