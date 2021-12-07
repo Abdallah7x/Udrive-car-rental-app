@@ -23,10 +23,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        //body
         body: Padding(
             padding: const EdgeInsets.all(16.0),
-            //form
             child: Form(
                 key: _formKey,
                 child: Column(children: <Widget>[
@@ -53,7 +51,6 @@ class _HomePageState extends State<HomePage> {
                         ),
                       )),
 
-                  //styling
                   SizedBox(
                     height: MediaQuery.of(context).size.width * 0.1,
                   ),
@@ -61,7 +58,6 @@ class _HomePageState extends State<HomePage> {
                     decoration: InputDecoration(labelText: 'E-Mail'),
                     keyboardType: TextInputType.emailAddress,
                     onFieldSubmitted: (value) {
-                      //Validator
                     },
                     validator: (value) {
                       if (value.isEmpty ||
@@ -72,11 +68,11 @@ class _HomePageState extends State<HomePage> {
                       return null;
                     },
                   ),
-                  //box styling
+                
                   SizedBox(
                     height: MediaQuery.of(context).size.width * 0.1,
                   ),
-                  //text input
+                 
                   TextFormField(
                     decoration: InputDecoration(labelText: 'Password'),
                     keyboardType: TextInputType.emailAddress,
