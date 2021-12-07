@@ -3,12 +3,12 @@ import 'package:drive/model/data.dart';
 import 'package:drive/theme/colors.dart';
 import 'product_detail_page.dart';
 
-class HomePage extends StatefulWidget {
+class productPage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _productPageState createState() => _productPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _productPageState extends State<productPage> {
   int activeIndex = 0;
   @override
   Widget build(BuildContext context) {
