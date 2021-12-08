@@ -110,11 +110,13 @@ class _HomePageState extends State<HomePage> {
                         ),
                         child: Text('Login'),
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => productPage()),
-                          );
+                          if (_formKey.currentState.validate()) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => productPage()),
+                            );
+                          }
                         },
                       )),
                   Container(
