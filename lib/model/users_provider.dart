@@ -7,7 +7,7 @@ class UsersProviders extends ChangeNotifier {
   //Notes List
   List<Users> _users = <Users>[];
 
-  List<Users> get getNotes {
+  List<Users> get getUsers {
     return _users;
   }
 
@@ -20,7 +20,7 @@ class UsersProviders extends ChangeNotifier {
     notifyListeners();
   }
 
-  // function to remove or delete notes by using list index position
+  // function to remove or delete users by using list index position
   void removeUsers(int index) {
     _users.removeAt(index);
     notifyListeners();
