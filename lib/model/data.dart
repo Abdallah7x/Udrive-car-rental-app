@@ -5,33 +5,26 @@ List users = [
   {
     "id": 1,
     "name": "Ahmed Said",
-    "img": "assets/images/user.jpg"
+    "img": "assets/images/user.jpg",
     "Email": "Ahmed@gmail",
-    
   },
-   {
+  {
     "id": 2,
     "name": "Kamal Ahmed",
-   
-    "img": "assets/images/user.jpg"
+    "img": "assets/images/user.jpg",
     "Email": "Kamal@gmail",
-    
   },
-   {
+  {
     "id": 3,
     "name": "Maryam Maged",
-    "img": "assets/images/user.jpg"
-    
+    "img": "assets/images/user.jpg",
     "Email": "Maryam@gmail",
-    
   },
-   {
+  {
     "id": 4,
     "name": "Pierre Malak",
-    "img": "assets/images/user.jpg"
-    
+    "img": "assets/images/user.jpg",
     "Email": "Pierre@gmail",
-    
   }
 ];
 List items = [
