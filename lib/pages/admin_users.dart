@@ -111,7 +111,7 @@ TextEditingController _name = TextEditingController();
     child: Text("ADD USER"),
     onPressed: () {
       Provider.of<UsersProviders>(context, listen: false)
-          .addNotes(_name.text, _id.text, _email.text, _img.text);
+          .addUsers(_name.text, _id.text, _email.text, _img.text);
       Navigator.of(context).pop();
     },
   );
