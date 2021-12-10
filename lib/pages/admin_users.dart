@@ -13,10 +13,11 @@ class Admin_User extends StatelessWidget {
       appBar: AppBar(
           titleSpacing: 0.0,
           toolbarHeight: 200,
-          title: Image.network(
-            "https://9to5mac.com/wp-content/uploads/sites/6/2019/11/how-to-quickly-select-move-delete-notes-iphone-ipad-two-finger-tap.jpeg?quality=82&strip=all",
-            fit: BoxFit.cover,
-          )),
+         // title: Image.network(
+          //  "https://9to5mac.com/wp-content/uploads/sites/6/2019/11/how-to-quickly-select-move-delete-notes-iphone-ipad-two-finger-tap.jpeg?quality=82&strip=all",
+          //  fit: BoxFit.cover,
+         // )
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Consumer<UsersProviders>(
