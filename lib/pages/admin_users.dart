@@ -101,3 +101,55 @@ class CardList extends StatelessWidget {
     );
   }
 }
+showAlertDialog(BuildContext context) {
+TextEditingController _name = TextEditingController();
+  TextEditingController _id = TextEditingController();
+  TextEditingController _email = TextEditingController();
+  TextEditingController _img = TextEditingController();
+  // Create button
+  Widget okButton = FlatButton(
+    child: Text("ADD USER"),
+    onPressed: () {
+      Provider.of<NotesProviders>(context, listen: false)
+          .addNotes(_name.text, _id.text, _email.text, _img.text);
+      Navigator.of(context).pop();
+    },
+  );
+
+  // Create AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("ADD A NEW NOTE "),
+    content: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        TextField(
+          controller: _name,
+          decoration: InputDecoration(hintText: "Enter NAME"),
+        ),
+        TextField(
+          controller: _email,
+          decoration: InputDecoration(hintText: "Enter EMAIL"),
+        ),
+        TextField(
+          controller: _id,
+          decoration: InputDecoration(hintText: "Enter The ID"),
+        ),
+        TextField(
+          controller: _img,
+          decoration: InputDecoration(hintText: "Enter The Image Path"),
+        ),
+      ],
+    ),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
