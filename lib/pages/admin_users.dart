@@ -110,7 +110,7 @@ TextEditingController _name = TextEditingController();
   Widget okButton = FlatButton(
     child: Text("ADD USER"),
     onPressed: () {
-      Provider.of<NotesProviders>(context, listen: false)
+      Provider.of<UsersProviders>(context, listen: false)
           .addNotes(_name.text, _id.text, _email.text, _img.text);
       Navigator.of(context).pop();
     },
