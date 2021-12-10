@@ -77,7 +77,7 @@ class CardList extends StatelessWidget {
                 topLeft: Radius.circular(10),
               )),
           child: ListTile(
-            leading: Icon(Icons.note),
+            leading: Icon(Icons.account_circle)),
             title: Text(users.name),
             subtitle: Text(users.email),
             trailing: Icon(
