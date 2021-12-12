@@ -1,148 +1,82 @@
-import 'package:drive/pages/home_page.dart';
-import 'package:drive/pages/password.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'signup.dart';
+import 'package:drive/pages/home_page.dart';
+import 'package:drive/pages/signup.dart';
 
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  var _formKey = GlobalKey<FormState>();
-  var isLoading = false;
-
-  void _submit() {
-    final isValid = _formKey.currentState.validate();
-    if (!isValid) {
-      return;
-    }
-    _formKey.currentState.save();
-  }
+class MyLogin extends StatelessWidget {
+  const MyLogin({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    String email = '', pass = '';
     return Scaffold(
-        body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-                key: _formKey,
-                child: Column(children: <Widget>[
-                  Container(
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.all(10),
-                      constraints: BoxConstraints.tightForFinite(),
-                      child: Text(
-                        'Udrive',
-                        style: TextStyle(
-                            color: Colors.blue.shade900,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 30),
-                      )),
-                  Container(
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.all(10),
-                      constraints: BoxConstraints.tightForFinite(),
-                      child: Text(
-                        'Sign in',
-                        style: TextStyle(
-                          color: Colors.blue.shade900,
-                          fontSize: 22,
-                        ),
-                      )),
-
-                  SizedBox(
-                    height: MediaQuery.of(context).size.width * 0.1,
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.blue.shade900,
+        title: Text(
+          'Udrive',
+        ),
+      ),
+      body: Center(
+        child: Container(
+          margin: EdgeInsets.only(left: 30, right: 30),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextField(
+                onChanged: (value) {
+                  email = value;
+                },
+                decoration: InputDecoration(hintText: 'Email'),
+              ),
+              TextField(
+                onChanged: (value) {
+                  pass = value;
+                },
+                obscureText: true,
+                decoration: InputDecoration(hintText: 'Password'),
+              ),
+              ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(Colors.blue.shade900),
                   ),
-                  TextFormField(
-                    decoration: InputDecoration(labelText: 'E-Mail'),
-                    keyboardType: TextInputType.emailAddress,
-                    onFieldSubmitted: (value) {
-                    },
-                    validator: (value) {
-                      if (value.isEmpty ||
-                          !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                              .hasMatch(value)) {
-                        return 'Enter a valid email!';
-                      }
-                      return null;
-                    },
-                  ),
-                
-                  SizedBox(
-                    height: MediaQuery.of(context).size.width * 0.1,
-                  ),
-                 
-                  TextFormField(
-                    decoration: InputDecoration(labelText: 'Password'),
-                    keyboardType: TextInputType.emailAddress,
-                    onFieldSubmitted: (value) {},
-                    obscureText: true,
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Enter a valid password!';
-                      }
-                      return null;
-                    },
-                  ),
-                  FlatButton(
-                    onPressed: () {
+                  onPressed: () async {
+                    try {
+                      UserCredential userCredential = await FirebaseAuth
+                          .instance
+                          .signInWithEmailAndPassword(
+                              email: email, password: pass);
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => password()),
+                        MaterialPageRoute(builder: (context) => productPage()),
                       );
-                    },
-                    textColor: Colors.blue.shade900,
-                    child: Text('Forgot Password'),
+                    } on FirebaseAuthException catch (e) {
+                      if (e.code == 'user-not-found') {
+                        print('No user found for that email.');
+                      } else if (e.code == 'wrong-password') {
+                        print('Wrong password provided for that user.');
+                      }
+                    }
+                  },
+                  child: Text('Log in')),
+              ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(Colors.blue.shade900),
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.width * 0.1,
-                  ),
-
-                  Container(
-                      height: 50,
-                      width: 800,
-                      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.blue.shade900),
-                        ),
-                        child: Text('Login'),
-                        onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => productPage()),
-                            );
-                          }
-                        },
-                      )),
-                  Container(
-                    child: Row(
-                      children: <Widget>[
-                        Text(
-                          'You do not have an account?',
-                          style: TextStyle(color: Colors.blue.shade900),
-                        ),
-                        FlatButton(
-                          textColor: Colors.blue.shade900,
-                          child: Text(
-                            'Sign up',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SignupPage()),
-                            );
-                          },
-                        )
-                      ],
-                    ),
-                  ),
-                ]))));
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyRegister()),
+                    );
+                  },
+                  child: Text('Register')),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
