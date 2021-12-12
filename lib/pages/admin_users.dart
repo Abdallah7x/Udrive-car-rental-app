@@ -11,12 +11,9 @@ class Admin_User extends StatelessWidget {
     return Scaffold(
       backgroundColor: primary,
       appBar: AppBar(
-          titleSpacing: 0.0,
-          toolbarHeight: 200,
-         // title: Image.network(
-          //  "https://9to5mac.com/wp-content/uploads/sites/6/2019/11/how-to-quickly-select-move-delete-notes-iphone-ipad-two-finger-tap.jpeg?quality=82&strip=all",
-          //  fit: BoxFit.cover,
-         // )
+        titleSpacing: 0.0,
+        toolbarHeight: 200,
+
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -66,44 +63,50 @@ class CardList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: Slidable(
-        actionPane: SlidableDrawerActionPane(),
-        actionExtentRatio: 0.25,
-        child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(10),
-                topLeft: Radius.circular(10),
-              )),
-          child: ListTile(
-            leading: Icon(Icons.account_circle)),
-            title: Text(users.name),
-            subtitle: Text(users.email),
-            trailing: Icon(
-              Icons.arrow_forward_ios,
-              color: Colors.black26,
+        padding: const EdgeInsets.all(2.0),
+        child: Slidable(
+          startActionPane: ActionPane(
+            motion: const DrawerMotion(),
+            extentRatio: 0.25,
+          ),
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  topLeft: Radius.circular(10),
+                )),
+            child: ListTile(
+              leading: Icon(Icons.note),
+              title: Text(users.name),
+              subtitle: Text(users.email),
+              trailing: Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.black26,
+              ),
             ),
           ),
-        ),
-        secondaryActions: <Widget>[
-          IconSlideAction(
-              caption: 'Delete',
-              color: Colors.red,
-              icon: Icons.delete,
-              onTap: () {
-                print("HELLO DELETED");
-                Provider.of<UsersProviders>(context, listen: false)
-                    .removeUsers(index);
-              }),
-        ],
-      ),
-    );
+          endActionPane: ActionPane(
+            motion: const DrawerMotion(),
+            extentRatio: 0.25,
+            children: [
+              SlidableAction(
+                label: 'Delete',
+                backgroundColor: Colors.red,
+                icon: Icons.delete,
+                onPressed: (context) {
+                  Provider.of<UsersProviders>(context, listen: false)
+                      .removeUsers(index);
+                },
+              ),
+            ],
+          ),
+        ));
   }
 }
+
 showAlertDialog(BuildContext context) {
-TextEditingController _name = TextEditingController();
+  TextEditingController _name = TextEditingController();
   TextEditingController _id = TextEditingController();
   TextEditingController _email = TextEditingController();
   TextEditingController _img = TextEditingController();
