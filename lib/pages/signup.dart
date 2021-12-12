@@ -67,7 +67,8 @@ class SignupPage extends StatelessWidget {
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 40),
-                      Column(
+                     child: Column(
+                  
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         const Padding(
@@ -109,20 +110,20 @@ class SignupPage extends StatelessWidget {
                               hintText: 'Password',
                             ),
                           ),
-                        )
-                      ],
+                        ),
+                      Padding(
                       padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: Container(
+                      child: Padding(
                           padding: EdgeInsets.only(top: 3, left: 3),
                           child: ElevatedButton(
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(
-                                  Colors.blue.shade900),
-                            ),
-                            child: Text('Submit'),
-                            onPressed: () {},
-                          )),
+                              style: ButtonStyle(
+                                     backgroundColor: MaterialStateProperty.all( Colors.blue.shade900)
+                                     ),
+                              child: const Text('Submit'),
+                              onPressed: () {},
+                          ),
                     ),
+                      ),
                     SizedBox(
                       height: 20,
                     ),
@@ -137,14 +138,16 @@ class SignupPage extends StatelessWidget {
                         ),
                       ],
                     )
-                    )],
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+                      ]
+                     )
+        )
+                  ])
+              ]
+              )
+              )
+              )
+              )
+              );
   }
 }
 
