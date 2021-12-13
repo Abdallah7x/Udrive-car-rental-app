@@ -1,4 +1,7 @@
+import 'package:drive/pages/admin_users.dart';
 import 'package:flutter/material.dart';
+
+import 'admin_users.dart';
 
 class Dashboard extends StatelessWidget {
   @override
@@ -9,28 +12,93 @@ class Dashboard extends StatelessWidget {
           titleSpacing: 0.0,
         ),
         drawer: Drawer(
-          // Add a ListView to the drawer. This ensures the user can scroll
-          // through the options in the drawer if there isn't enough vertical
-          // space to fit everything.
           child: ListView(
-            // Important: Remove any padding from the ListView.
-            padding: EdgeInsets.zero,
-            children: [
-              const DrawerHeader(
+            children: <Widget>[
+              DrawerHeader(
                 decoration: BoxDecoration(
                   color: Colors.cyan,
                 ),
-                child: Text('Drawer Header'),
+                child: Stack(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage('assets/man.png'),
+                        radius: 50.0,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        'Reynolds',
+                        style: TextStyle(color: Colors.black87, fontSize: 20.0),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight + Alignment(0, .3),
+                      child: Text(
+                        'Admin Profile',
+                        style: TextStyle(
+                          color: Colors.white70,
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight + Alignment(0, .8),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(5.0),
+                          child: Text(
+                            'Admin',
+                            style: TextStyle(color: Colors.black87),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               ListTile(
-                title: const Text('Item 1'),
+                title: const Text('Dashboard'),
                 onTap: () {
                   // Update the state of the app.
                   // ...
                 },
               ),
               ListTile(
-                title: const Text('Item 2'),
+                title: const Text('Users'),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
+              ),
+              ListTile(
+                title: const Text('Categories'),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
+              ),
+              ListTile(
+                title: const Text('ADs'),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
+              ),
+              ListTile(
+                title: const Text('Cars'),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
+              ),
+              ListTile(
+                title: const Text('Profile settings'),
                 onTap: () {
                   // Update the state of the app.
                   // ...
@@ -49,7 +117,6 @@ class Dashboard extends StatelessWidget {
                     padding: const EdgeInsets.all(12.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Image.asset('assets/man.png', width: 50.0)],
                     ),
                   )),
               const Padding(
@@ -71,7 +138,11 @@ class Dashboard extends StatelessWidget {
                     children: [
                       GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(context, '/admin_users');
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => addProfile()),
+                            );
                           },
                           child: SizedBox(
                               width: 160.0,
@@ -108,7 +179,11 @@ class Dashboard extends StatelessWidget {
                               ))),
                       GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(context, '/admin_users');
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => addProfile()),
+                            );
                           },
                           child: SizedBox(
                               width: 160.0,
@@ -145,7 +220,11 @@ class Dashboard extends StatelessWidget {
                               ))),
                       GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(context, '/admin_users');
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => addProfile()),
+                            );
                           },
                           child: SizedBox(
                               width: 160.0,
@@ -182,7 +261,11 @@ class Dashboard extends StatelessWidget {
                               ))),
                       GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(context, '/admin_users');
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => addProfile()),
+                            );
                           },
                           child: SizedBox(
                               width: 160.0,
