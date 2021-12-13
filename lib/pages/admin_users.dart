@@ -172,7 +172,7 @@ showAlertDialog(BuildContext context) {
 
   // Create AlertDialog
   AlertDialog alert = AlertDialog(
-    title: Text("Add new Users "),
+    title: Text("ADD A NEW Users "),
     content: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -188,9 +188,13 @@ showAlertDialog(BuildContext context) {
           controller: _id,
           decoration: InputDecoration(hintText: "Enter The ID"),
         ),
-        TextField(
-          controller: _img,
-          decoration: InputDecoration(hintText: "Enter The Image Path"),
+        SizedBox(height: 30),
+        FlatButton(
+          child: Text(
+            'Upload image',
+            style: TextStyle(fontSize: 20.0),
+          ),
+          onPressed: () {},
         ),
       ],
     ),
