@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'home_page.dart';
 class userprofile extends StatelessWidget {
   Widget textfield({@required hintText}) {
     return Material(
@@ -36,7 +36,10 @@ class userprofile extends StatelessWidget {
             Icons.arrow_back,
             color: Colors.white,
           ),
-          onPressed: () {},
+          onPressed: () {
+             Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => productPage()));
+          },
         ),
       ),
       body: Stack(
@@ -46,7 +49,7 @@ class userprofile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Container(
-                height: 450,
+                height: 250,
                 width: double.infinity,
                 margin: EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
@@ -61,9 +64,7 @@ class userprofile extends StatelessWidget {
                     textfield(
                       hintText: 'Password',
                     ),
-                    textfield(
-                      hintText: 'Confirm password',
-                    ),
+
                     Container(
                       height: 55,
                       width: double.infinity,
@@ -101,7 +102,7 @@ class userprofile extends StatelessWidget {
                 child: Text(
                   "User Profile",
                   style: TextStyle(
-                    fontSize: 35,
+                    fontSize: 25,
                     letterSpacing: 1.5,
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
@@ -109,14 +110,16 @@ class userprofile extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: EdgeInsets.all(10.0),
+                padding: EdgeInsets.all(5.0),
                 width: MediaQuery.of(context).size.width / 2,
-                height: MediaQuery.of(context).size.width / 2,
+                height: MediaQuery.of(context).size.width / 3,
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.white, width: 5),
                   shape: BoxShape.circle,
+                  
                   color: Colors.white,
                   image: DecorationImage(
+                    
                     fit: BoxFit.cover,
                     image: AssetImage('assets/images/avatar.png'),
                   ),
@@ -125,7 +128,7 @@ class userprofile extends StatelessWidget {
             ],
           ),
           Padding(
-            padding: EdgeInsets.only(bottom: 270, left: 184),
+            padding: EdgeInsets.only(bottom: 170, left: 184),
             child: CircleAvatar(
               backgroundColor: Colors.black54,
               child: IconButton(
