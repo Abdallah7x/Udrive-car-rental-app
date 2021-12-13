@@ -5,16 +5,66 @@ import 'package:provider/provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:drive/theme/colors.dart';
 
+class addProfile extends StatelessWidget {
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) => UsersProviders(),
+      child: MaterialApp(
+          title: 'Users',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            primarySwatch: Colors.cyan,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+          ),
+          home: Admin_User()),
+    );
+  }
+}
+
 class Admin_User extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primary,
+      backgroundColor: Colors.black87,
       appBar: AppBar(
         titleSpacing: 0.0,
-        toolbarHeight: 200,
-
       ),
+
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.cyan,
+              ),
+              child: Text('Drawer Header'),
+            ),
+            ListTile(
+              title: const Text('Item 1'),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+              },
+            ),
+            ListTile(
+              title: const Text('Item 2'),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+              },
+            ),
+          ],
+        ),
+      ),
+      //toolbarHeight: 100,
+
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Consumer<UsersProviders>(
@@ -77,7 +127,7 @@ class CardList extends StatelessWidget {
                   topLeft: Radius.circular(10),
                 )),
             child: ListTile(
-              leading: Icon(Icons.note),
+              leading: Icon(Icons.supervisor_account),
               title: Text(users.name),
               subtitle: Text(users.email),
               trailing: Icon(
@@ -116,7 +166,7 @@ showAlertDialog(BuildContext context) {
     onPressed: () {
       Provider.of<UsersProviders>(context, listen: false)
           .addUsers(_name.text, _id.text, _email.text, _img.text);
-      Navigator.of(context).pop();
+      // Navigator.of(context).pop();
     },
   );
 
