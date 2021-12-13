@@ -172,7 +172,7 @@ showAlertDialog(BuildContext context) {
 
   // Create AlertDialog
   AlertDialog alert = AlertDialog(
-    title: Text("ADD A NEW NOTE "),
+    title: Text("Add new Users "),
     content: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
