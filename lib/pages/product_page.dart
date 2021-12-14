@@ -1,7 +1,11 @@
+import 'package:drive/pages/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:drive/model/data.dart';
 import 'package:drive/theme/colors.dart';
 import 'product_detail_page.dart';
+import 'cart.dart';
+import 'package:provider/provider.dart';
+import '../providers/cart_functions.dart';
 
 class productPage extends StatefulWidget {
   @override
@@ -12,9 +16,13 @@ class _productPageState extends State<productPage> {
   int activeIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: getBody(),
-    );
+   // return Consumer<CartProvider>(
+      //builder:(context,cart,child){
+        return  Scaffold(
+          body: getBody(),
+         );
+      //}
+   // );
   }
 
   Widget getBody() {
@@ -35,9 +43,33 @@ class _productPageState extends State<productPage> {
               ),
               Row(
                 children: <Widget>[
+                  IconButton(
+                    icon:Icon(Icons.account_circle),
+                     onPressed: () { 
+                       
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => userprofile()));
+                    
+                      },
+                      
+
+                  ),
+                  
+                   
+                  IconButton(
+                  icon:Icon(Icons.shopping_cart),
+                     onPressed: () { 
+                       
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => CheckoutPage()));
+                    
+                      },
+                   ),
+                   Text('3'),
                   SizedBox(
                     width: 10,
                   ),
+
                 ],
               )
             ],
@@ -92,10 +124,13 @@ class _productPageState extends State<productPage> {
                 items.length,
                 (index) => InkWell(
                       onTap: () {
+                        print(items[index]['id']);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (_) => ProductDetailPage(
+                                  // item: items[index],
+                      
                                       id: items[index]['id'],
                                       name: items[index]['name'],
                                       img: items[index]['img'],
@@ -171,3 +206,4 @@ class _productPageState extends State<productPage> {
     );
   }
 }
+
