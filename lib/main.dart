@@ -1,25 +1,28 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'pages/login.dart';
+import 'package:drive/pages/login.dart';
+import 'package:drive/provider/cart_functions.dart';
+import 'package:drive/pages/product_page.dart';
 import 'package:provider/provider.dart';
-import 'providers/cart_functions.dart';
-import 'pages/home_page.dart';
-import 'pages/user_profile.dart';
 
-void main() {
-  // runApp(MaterialApp(
-  //   home: HomePage(),
-  // ));
-  runApp(
-   MyApp()
-  // MaterialApp(home: Text("NEW"))
-  );
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MaterialApp(
+    theme: new ThemeData(scaffoldBackgroundColor: Colors.white),
+    debugShowCheckedModeBanner: false,
+    home: MyLogin(),
+  ));
+  runApp(MyApp()
+      // MaterialApp(home: Text("NEW"))
+      );
 }
 
-class MyApp extends StatelessWidget{
-  build(BuildContext context){
-    return  ChangeNotifierProvider(
+class MyApp extends StatelessWidget {
+  build(BuildContext context) {
+    return ChangeNotifierProvider(
       create: (context) => CartProvider(),
-      child: MaterialApp(home: Scaffold(body: productPage())),
-      );
+      child: MaterialApp(home: Scaffold(body: MyLogin())),
+    );
   }
 }
