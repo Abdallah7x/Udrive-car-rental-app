@@ -19,6 +19,26 @@ class _productPageState extends State<productPage> {
    // return Consumer<CartProvider>(
       //builder:(context,cart,child){
         return  Scaffold(
+          appBar: AppBar(
+        actions: <Widget>[
+          FlatButton(
+            textColor: Colors.white,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MyLogin()),
+              );
+            },
+            child: Text("Log out"),
+            shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
+          ),
+        ],
+        backgroundColor: Colors.blue.shade900,
+        centerTitle: true,
+        title: Text(
+          'Our fleet',
+        ),
+      ),
           body: getBody(),
          );
       //}
