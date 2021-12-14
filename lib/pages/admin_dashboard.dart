@@ -1,3 +1,5 @@
+import 'package:drive/pages/admin_ads.dart';
+import 'package:drive/pages/admin_cars.dart';
 import 'package:drive/pages/admin_users.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +9,7 @@ class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.white,
         appBar: AppBar(
           titleSpacing: 0.0,
         ),
@@ -65,36 +67,44 @@ class Dashboard extends StatelessWidget {
               ListTile(
                 title: const Text('Dashboard'),
                 onTap: () {
-                  // Update the state of the app.
-                  // ...
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Dashboard()),
+                  );
                 },
               ),
               ListTile(
                 title: const Text('Users'),
                 onTap: () {
-                  // Update the state of the app.
-                  // ...
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => addProfile()),
+                  );
                 },
               ),
-              ListTile(
+              /*  ListTile(
                 title: const Text('Categories'),
                 onTap: () {
                   // Update the state of the app.
                   // ...
                 },
-              ),
+              ),*/
               ListTile(
                 title: const Text('ADs'),
                 onTap: () {
-                  // Update the state of the app.
-                  // ...
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => addAds()),
+                  );
                 },
               ),
               ListTile(
                 title: const Text('Cars'),
                 onTap: () {
-                  // Update the state of the app.
-                  // ...
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => addCar()),
+                  );
                 },
               ),
               ListTile(
@@ -124,10 +134,10 @@ class Dashboard extends StatelessWidget {
                   child: Text(
                     'Dashboard',
                     style: TextStyle(
-                        color: Colors.white,
+                        color: Colors.black87,
                         fontSize: 28.0,
                         fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.start,
+                    textAlign: TextAlign.center,
                   )),
               Padding(
                 padding: const EdgeInsets.all(12.0),
@@ -136,7 +146,7 @@ class Dashboard extends StatelessWidget {
                     spacing: 20.0,
                     runSpacing: 20.0,
                     children: [
-                      GestureDetector(
+                      /*  GestureDetector(
                           onTap: () {
                             Navigator.push(
                               context,
@@ -176,13 +186,12 @@ class Dashboard extends StatelessWidget {
                                         ],
                                       )),
                                 ),
-                              ))),
+                              ))),*/
                       GestureDetector(
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) => addProfile()),
+                              MaterialPageRoute(builder: (context) => addCar()),
                             );
                           },
                           child: SizedBox(
@@ -222,8 +231,7 @@ class Dashboard extends StatelessWidget {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) => addProfile()),
+                              MaterialPageRoute(builder: (context) => addAds()),
                             );
                           },
                           child: SizedBox(
@@ -296,10 +304,6 @@ class Dashboard extends StatelessWidget {
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.w100))
-                                          
-                                          
-                                          
-                                          
                                         ],
                                       )),
                                 ),

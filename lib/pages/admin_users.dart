@@ -1,6 +1,9 @@
+import 'package:drive/pages/admin_ads.dart';
+import 'package:drive/pages/admin_cars.dart';
+import 'package:drive/pages/admin_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:drive/model/users.dart';
-import 'package:drive/model/users_provider.dart';
+import 'package:drive/provider/users_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:drive/theme/colors.dart';
@@ -32,29 +35,103 @@ class Admin_User extends StatelessWidget {
         titleSpacing: 0.0,
       ),
 
+     
       drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
         child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
+          children: <Widget>[
+            DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.cyan,
               ),
-              child: Text('Drawer Header'),
+              child: Stack(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage('assets/man.png'),
+                      radius: 50.0,
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      'Reynolds',
+                      style: TextStyle(color: Colors.black87, fontSize: 20.0),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight + Alignment(0, .3),
+                    child: Text(
+                      'Admin Profile',
+                      style: TextStyle(
+                        color: Colors.white70,
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight + Alignment(0, .8),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white),
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(5.0),
+                        child: Text(
+                          'Admin',
+                          style: TextStyle(color: Colors.black87),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             ListTile(
-              title: const Text('Item 1'),
+              title: const Text('Dashboard'),
               onTap: () {
-                // Update the state of the app.
-                // ...
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Dashboard()),
+                );
               },
             ),
             ListTile(
-              title: const Text('Item 2'),
+              title: const Text('Users'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => addProfile()),
+                );
+              },
+            ),
+            /*  ListTile(
+                title: const Text('Categories'),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
+              ),*/
+            ListTile(
+              title: const Text('ADs'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => addAds()),
+                );
+              },
+            ),
+            ListTile(
+              title: const Text('Cars'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => addCar()),
+                );
+              },
+            ),
+            ListTile(
+              title: const Text('Profile settings'),
               onTap: () {
                 // Update the state of the app.
                 // ...
@@ -62,8 +139,7 @@ class Admin_User extends StatelessWidget {
             ),
           ],
         ),
-      ),
-      //toolbarHeight: 100,
+      ), //toolbarHeight: 100,
 
       body: Padding(
         padding: const EdgeInsets.all(8.0),
