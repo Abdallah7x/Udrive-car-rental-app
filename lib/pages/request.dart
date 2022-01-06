@@ -86,10 +86,11 @@ class _rentrequest extends State<rentrequest> {
                     "Please pick the rent duration:",
                     style: TextStyle(fontSize: 17),
                   ),
-                  SizedBox(height: 15),
+                  SizedBox(height: 10),
                 ],
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(right: 20, left: 20),
@@ -151,6 +152,22 @@ class _rentrequest extends State<rentrequest> {
                   ),
                 ],
               ),
+              SizedBox(
+                height: 370,
+              ),
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(Colors.blue.shade900),
+                ),
+                child: Text('Submit request'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyLogin()),
+                  );
+                },
+              )
             ],
           ),
         ));
