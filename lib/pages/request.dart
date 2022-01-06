@@ -162,10 +162,7 @@ class _rentrequest extends State<rentrequest> {
                 ),
                 child: Text('Submit request'),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MyLogin()),
-                  );
+                  
                 },
               )
             ],
