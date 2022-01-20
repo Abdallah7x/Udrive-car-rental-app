@@ -1,10 +1,11 @@
 import 'dart:ui';
+import 'package:drive/pages/terms.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:drive/pages/login.dart';
-import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class rentrequest extends StatefulWidget {
   @override
@@ -14,17 +15,39 @@ class rentrequest extends StatefulWidget {
 class _rentrequest extends State<rentrequest> {
   DateTime _dateTime;
   DateTime _dateTimee;
+  File _file;
+  File _file2;
+  File _file3;
 
-  final ImagePicker imagePicker = ImagePicker();
-  List<XFile> imageFileList = [];
+  void adddate() async {
+    await FirebaseFirestore.instance.collection('request').add({
+      'pick up date': _dateTime,
+      'drop off date': _dateTimee,
+      'national id': _file.toString(),
+      'Driving liscese': _file2.toString(),
+      'House contract': _file3.toString(),
+    });
+  }
 
-  void selectImages() async {
-    final List<XFile> selectedImages = await imagePicker.pickMultiImage();
-    if (selectedImages.isNotEmpty) {
-      imageFileList.addAll(selectedImages);
-    }
-    print("Image List Length:" + imageFileList.length.toString());
-    setState(() {});
+  void pickercamera() async {
+    final myfile = await ImagePicker().pickImage(source: ImageSource.camera);
+    setState(() {
+      _file = File(myfile.path);
+    });
+  }
+
+  void pickercamera2() async {
+    final myfile2 = await ImagePicker().pickImage(source: ImageSource.gallery);
+    setState(() {
+      _file2 = File(myfile2.path);
+    });
+  }
+
+  void pickercamera3() async {
+    final myfile3 = await ImagePicker().pickImage(source: ImageSource.gallery);
+    setState(() {
+      _file3 = File(myfile3.path);
+    });
   }
 
   @override
@@ -49,7 +72,8 @@ class _rentrequest extends State<rentrequest> {
                       children: [
                         TextSpan(
                           text: 'Please upload these required documents:\n',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                         TextSpan(text: "\u2022 " + '   National ID \n'),
                         TextSpan(text: "\u2022 " + '   Driving license \n'),
@@ -67,30 +91,22 @@ class _rentrequest extends State<rentrequest> {
               SizedBox(
                 height: 30,
               ),
-              ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(Colors.blue.shade900),
-                ),
-                onPressed: () {
-                  selectImages();
-                },
-                child: Text('Select Images'),
-              ),
               SizedBox(
                 height: 35,
               ),
-              Column(
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
                     "Please pick the rent duration:",
-                    style: TextStyle(fontSize: 17),
+                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 50),
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(right: 20, left: 20),
@@ -111,9 +127,9 @@ class _rentrequest extends State<rentrequest> {
                                         : _dateTime,
                                     firstDate: DateTime(2022),
                                     lastDate: DateTime(2500))
-                                .then((date) {
+                                .then((date1) {
                               setState(() {
-                                _dateTime = date;
+                                _dateTime = date1;
                               });
                             });
                           },
@@ -140,9 +156,9 @@ class _rentrequest extends State<rentrequest> {
                                         : _dateTimee,
                                     firstDate: DateTime(2022),
                                     lastDate: DateTime(2500))
-                                .then((date) {
+                                .then((date2) {
                               setState(() {
-                                _dateTimee = date;
+                                _dateTimee = date2;
                               });
                             });
                           },
@@ -153,8 +169,79 @@ class _rentrequest extends State<rentrequest> {
                 ],
               ),
               SizedBox(
-                height: 370,
+                height: 50,
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Documents upload:",
+                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
+                    children: [
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.blue.shade900),
+                        ),
+                        child: Text('National ID'),
+                        onPressed: () {
+                          pickercamera();
+                        },
+                      ),
+                      Center(
+                          child: _file == null
+                              ? Text("no image uploaded")
+                              : Text("uploaded")),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.blue.shade900),
+                        ),
+                        child: Text('Driving license'),
+                        onPressed: () {
+                          pickercamera2();
+                        },
+                      ),
+                      Center(
+                        child: _file2 == null
+                            ? Text("no image uploaded")
+                            : Text('uploaded'),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.blue.shade900),
+                        ),
+                        child: Text('House contract'),
+                        onPressed: () {
+                          pickercamera3();
+                        },
+                      ),
+                      Center(
+                        child: _file3 == null
+                            ? Text("no image uploaded")
+                            : Text('uploaded'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(height: 30),
               ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor:
@@ -162,11 +249,11 @@ class _rentrequest extends State<rentrequest> {
                 ),
                 child: Text('Submit request'),
                 onPressed: () {
-                   Navigator.push(
+                  adddate();
+                  Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => terms_conditions()),
                   );
-                  
                 },
               )
             ],
