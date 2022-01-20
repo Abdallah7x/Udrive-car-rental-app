@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'product_detail_page.dart';
 import 'package:drive/pages/user_profile.dart';
 import 'cart.dart';
+import 'package:drive/pages/login.dart';
 
 class productPage extends StatefulWidget {
   @override
@@ -17,8 +18,49 @@ class _productPage extends State<productPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: <Widget>[
+          Row(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.account_circle),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => userprofile()));
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.shopping_cart),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => CheckoutPage()));
+                    },
+                  ),
+                  Text('3'),
+                  SizedBox(
+                    width: 10,
+                  ),
+                ],
+              )
+            ],
+          ),
+          FlatButton(
+            textColor: Colors.white,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MyLogin()),
+              );
+            },
+            child: Text("Log out"),
+            shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
+          ),
+        ],
         backgroundColor: Colors.blue.shade900,
-        title: Text("Our fleet"),
+        title: Text(
+          'Our fleet',
+        ),
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('cars').snapshots(),
