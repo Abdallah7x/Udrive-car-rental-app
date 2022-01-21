@@ -1,11 +1,9 @@
-import 'dart:ui';
 import 'package:drive/pages/terms.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:drive/services/request_service.dart';
 import 'package:flutter/material.dart';
 import 'package:drive/pages/login.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class rentrequest extends StatefulWidget {
   @override
@@ -18,37 +16,6 @@ class _rentrequest extends State<rentrequest> {
   File _file;
   File _file2;
   File _file3;
-
-  void adddate() async {
-    await FirebaseFirestore.instance.collection('request').add({
-      'pick up date': _dateTime,
-      'drop off date': _dateTimee,
-      'national id': _file.toString(),
-      'Driving liscese': _file2.toString(),
-      'House contract': _file3.toString(),
-    });
-  }
-
-  void pickercamera() async {
-    final myfile = await ImagePicker().pickImage(source: ImageSource.camera);
-    setState(() {
-      _file = File(myfile.path);
-    });
-  }
-
-  void pickercamera2() async {
-    final myfile2 = await ImagePicker().pickImage(source: ImageSource.gallery);
-    setState(() {
-      _file2 = File(myfile2.path);
-    });
-  }
-
-  void pickercamera3() async {
-    final myfile3 = await ImagePicker().pickImage(source: ImageSource.gallery);
-    setState(() {
-      _file3 = File(myfile3.path);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -249,7 +216,7 @@ class _rentrequest extends State<rentrequest> {
                 ),
                 child: Text('Submit request'),
                 onPressed: () {
-                  adddate();
+                  req().adddate(_dateTime, _dateTimee, _file, _file2, _file3);
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => terms_conditions()),
@@ -259,5 +226,26 @@ class _rentrequest extends State<rentrequest> {
             ],
           ),
         ));
+  }
+
+  void pickercamera() async {
+    final myfile = await ImagePicker().pickImage(source: ImageSource.camera);
+    setState(() {
+      _file = File(myfile.path);
+    });
+  }
+
+  void pickercamera2() async {
+    final myfile2 = await ImagePicker().pickImage(source: ImageSource.gallery);
+    setState(() {
+      _file2 = File(myfile2.path);
+    });
+  }
+
+  void pickercamera3() async {
+    final myfile3 = await ImagePicker().pickImage(source: ImageSource.gallery);
+    setState(() {
+      _file3 = File(myfile3.path);
+    });
   }
 }
