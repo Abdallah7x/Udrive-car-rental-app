@@ -1,319 +1,272 @@
+import 'package:drive/model/cars.dart';
+import 'package:drive/model/users.dart';
 import 'package:drive/pages/admin_ads.dart';
 import 'package:drive/pages/admin_cars.dart';
 import 'package:drive/pages/admin_users.dart';
+import 'package:drive/pages/requestsss.dart';
+import 'package:drive/provider/cars_provider.dart';
+import 'package:drive/provider/users_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'admin_users.dart';
+enum Page { dashboard, manage }
 
-class Dashboard extends StatelessWidget {
+class Dashboard extends StatefulWidget {
+  @override
+  _DashboardState createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
+  Page _selectedPage = Page.dashboard;
+  MaterialColor active = Colors.red;
+  MaterialColor notActive = Colors.grey;
+  TextEditingController categoryController = TextEditingController();
+  TextEditingController brandController = TextEditingController();
+  GlobalKey<FormState> _categoryFormKey = GlobalKey();
+  GlobalKey<FormState> _brandFormKey = GlobalKey();
+  //BrandService _brandService = BrandService();
+  //CategoryService _categoryService = CategoryService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
         appBar: AppBar(
-          titleSpacing: 0.0,
-        ),
-        drawer: Drawer(
-          child: ListView(
+          title: Row(
             children: <Widget>[
-              DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.cyan,
-                ),
-                child: Stack(
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage('assets/man.png'),
-                        radius: 50.0,
+              Expanded(
+                  child: TextButton.icon(
+                      onPressed: () {
+                        setState(() => _selectedPage = Page.dashboard);
+                      },
+                      icon: Icon(
+                        Icons.dashboard,
+                        color: _selectedPage == Page.dashboard
+                            ? active
+                            : notActive,
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        'Reynolds',
-                        style: TextStyle(color: Colors.black87, fontSize: 20.0),
+                      label: Text('Dashboard'))),
+              Expanded(
+                  child: TextButton.icon(
+                      onPressed: () {
+                        setState(() => _selectedPage = Page.manage);
+                      },
+                      icon: Icon(
+                        Icons.sort,
+                        color:
+                            _selectedPage == Page.manage ? active : notActive,
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight + Alignment(0, .3),
-                      child: Text(
-                        'Admin Profile',
-                        style: TextStyle(
-                          color: Colors.white70,
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight + Alignment(0, .8),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.white),
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: Text(
-                            'Admin',
-                            style: TextStyle(color: Colors.black87),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              ListTile(
-                title: const Text('Dashboard'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Dashboard()),
-                  );
-                },
-              ),
-              ListTile(
-                title: const Text('Users'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => addProfile()),
-                  );
-                },
-              ),
-              /*  ListTile(
-                title: const Text('Categories'),
-                onTap: () {
-                  // Update the state of the app.
-                  // ...
-                },
-              ),*/
-              ListTile(
-                title: const Text('ADs'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => addAds()),
-                  );
-                },
-              ),
-              ListTile(
-                title: const Text('Cars'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => addCar()),
-                  );
-                },
-              ),
-              ListTile(
-                title: const Text('Profile settings'),
-                onTap: () {
-                  // Update the state of the app.
-                  // ...
-                },
-              ),
+                      label: Text('Manage'))),
             ],
           ),
+          elevation: 0.0,
+          backgroundColor: Colors.white,
         ),
-        body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              GestureDetector(
-                  onTap: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    ),
-                  )),
-              const Padding(
+        body: _loadScreen());
+  }
+
+  Widget _loadScreen() {
+    CarProviders carProvider = Provider.of<CarProviders>(context, listen: true);
+    UsersProviders userProvider =
+        Provider.of<UsersProviders>(context, listen: true);
+
+    Future.delayed(Duration(seconds: 0), () async {
+      carProvider.getCarsCollectionFromFirebase().then((value) {});
+      userProvider.getusersCollectionFromFirebase().then((value) {});
+    });
+    List<Car> cars = carProvider.getCar;
+    List<Users> users = userProvider.getUsers;
+    switch (_selectedPage) {
+      case Page.dashboard:
+        return Column(
+          children: <Widget>[
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                GestureDetector(
+                    onTap: () {},
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      ),
+                    )),
+                const Padding(
                   padding: EdgeInsets.all(18.0),
-                  child: Text(
-                    'Dashboard',
-                    style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 28.0,
-                        fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  )),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Center(
-                  child: Wrap(
-                    spacing: 20.0,
-                    runSpacing: 20.0,
-                    children: [
-                      /*  GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => addProfile()),
-                            );
-                          },
-                          child: SizedBox(
-                              width: 160.0,
-                              height: 160.0,
-                              child: Card(
-                                color: Color.fromARGB(255, 21, 21, 21),
-                                elevation: 2.0,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.0)),
-                                child: Center(
-                                  child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Image.asset(
-                                            'assets/categories.png',
-                                            width: 64.0,
-                                          ),
-                                          const SizedBox(height: 10.0),
-                                          const Text('Categories',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20.0,
-                                              )),
-                                          const SizedBox(height: 5.0),
-                                          const Text('2 Items',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w100))
-                                        ],
-                                      )),
-                                ),
-                              ))),*/
-                      GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => addCar()),
-                            );
-                          },
-                          child: SizedBox(
-                              width: 160.0,
-                              height: 160.0,
-                              child: Card(
-                                color: Color.fromARGB(255, 21, 21, 21),
-                                elevation: 2.0,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.0)),
-                                child: Center(
-                                  child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Image.asset(
-                                            'assets/promote.png',
-                                            width: 64.0,
-                                          ),
-                                          const SizedBox(height: 10.0),
-                                          const Text('Cars',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20.0,
-                                              )),
-                                          const SizedBox(height: 5.0),
-                                          const Text('2 Items',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w100))
-                                        ],
-                                      )),
-                                ),
-                              ))),
-                      GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => addAds()),
-                            );
-                          },
-                          child: SizedBox(
-                              width: 160.0,
-                              height: 160.0,
-                              child: Card(
-                                color: Color.fromARGB(255, 21, 21, 21),
-                                elevation: 2.0,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.0)),
-                                child: Center(
-                                  child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Image.asset(
-                                            'assets/car-insurance.png',
-                                            width: 64.0,
-                                          ),
-                                          const SizedBox(height: 10.0),
-                                          const Text('ADs',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20.0,
-                                              )),
-                                          const SizedBox(height: 5.0),
-                                          const Text('2 Items',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w100))
-                                        ],
-                                      )),
-                                ),
-                              ))),
-                      GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => addProfile()),
-                            );
-                          },
-                          child: SizedBox(
-                              width: 160.0,
-                              height: 160.0,
-                              child: Card(
-                                color: Color.fromARGB(255, 21, 21, 21),
-                                elevation: 2.0,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.0)),
-                                child: Center(
-                                  child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Image.asset(
-                                            'assets/resume.png',
-                                            width: 64.0,
-                                          ),
-                                          const SizedBox(height: 10.0),
-                                          const Text('Users',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20.0,
-                                              )),
-                                          const SizedBox(height: 5.0),
-                                          const Text('2 Items',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w100))
-                                        ],
-                                      )),
-                                ),
-                              )))
-                    ],
-                  ),
+                  /*child: Text(
+                      'Dashboard',
+                      style: TextStyle(
+                          color: Colors.black87,
+                          fontSize: 28.0,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    )*/
                 ),
-              )
-            ],
-          ),
-        ));
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Center(
+                    child: Wrap(
+                      spacing: 20.0,
+                      runSpacing: 20.0,
+                      children: [
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => addCar()),
+                              );
+                            },
+                            child: SizedBox(
+                                width: 260.0,
+                                height: 260.0,
+                                child: Card(
+                                  color: Color.fromARGB(255, 21, 21, 21),
+                                  elevation: 2.0,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0)),
+                                  child: Center(
+                                    child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          children: [
+                                            Image.asset(
+                                              'assets/images/promote.png',
+                                              width: 154.0,
+                                            ),
+                                            const SizedBox(height: 10.0),
+                                            const Text('Cars',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20.0,
+                                                )),
+                                            const SizedBox(height: 5.0),
+                                            Text(
+                                                cars.length.toString() +
+                                                    ' Items',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.w100))
+                                          ],
+                                        )),
+                                  ),
+                                ))),
+                        // GestureDetector(
+                        //     onTap: () {
+                        //       Navigator.push(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //             builder: (context) => addAds()),
+                        //       );
+                        //     },
+                        //     child: SizedBox(
+                        //         width: 160.0,
+                        //         height: 160.0,
+                        //         child: Card(
+                        //           color: Color.fromARGB(255, 21, 21, 21),
+                        //           elevation: 2.0,
+                        //           shape: RoundedRectangleBorder(
+                        //               borderRadius: BorderRadius.circular(8.0)),
+                        //           child: Center(
+                        //             child: Padding(
+                        //                 padding: const EdgeInsets.all(8.0),
+                        //                 child: Column(
+                        //                   children: [
+                        //                     Image.asset(
+                        //                       'assets/car-insurance.png',
+                        //                       width: 64.0,
+                        //                     ),
+                        //                     const SizedBox(height: 10.0),
+                        //                     const Text('ADs',
+                        //                         style: TextStyle(
+                        //                           color: Colors.white,
+                        //                           fontWeight: FontWeight.bold,
+                        //                           fontSize: 20.0,
+                        //                         )),
+                        //                     const SizedBox(height: 5.0),
+                        //                     const Text('2 Items',
+                        //                         style: TextStyle(
+                        //                             color: Colors.white,
+                        //                             fontWeight:
+                        //                                 FontWeight.w100))
+                        //                   ],
+                        //                 )),
+                        //           ),
+                        //         ))),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => addProfile()),
+                              );
+                            },
+                            child: SizedBox(
+                                width: 260.0,
+                                height: 260.0,
+                                child: Card(
+                                  color: Color.fromARGB(255, 21, 21, 21),
+                                  elevation: 2.0,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0)),
+                                  child: Center(
+                                    child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          children: [
+                                            Image.asset(
+                                              'assets/resume.png',
+                                              width: 154.0,
+                                            ),
+                                            const SizedBox(height: 10.0),
+                                            const Text('Users',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20.0,
+                                                )),
+                                            const SizedBox(height: 5.0),
+                                            Text(
+                                                users.length.toString() +
+                                                    ' Items',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.w200))
+                                          ],
+                                        )),
+                                  ),
+                                )))
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            )
+          ],
+        );
+        break;
+      //maryam
+      case Page.manage:
+        return ListView(
+          children: <Widget>[
+            ListTile(
+              leading: Icon(Icons.library_books),
+              title: Text("Requests"),
+              onTap: () {
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => Request()),
+                // );
+              },
+            ),
+            Divider(),
+          ],
+        );
+        break;
+      default:
+        return Container();
+    }
   }
 }
