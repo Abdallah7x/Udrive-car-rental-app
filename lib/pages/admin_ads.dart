@@ -1,22 +1,21 @@
+import 'package:drive/model/ads.dart';
 import 'package:drive/pages/admin_cars.dart';
 import 'package:drive/pages/admin_dashboard.dart';
 import 'package:drive/pages/admin_users.dart';
 import 'package:drive/provider/ads_provider.dart';
+import 'package:drive/theme/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:drive/model/users.dart';
-import 'package:drive/provider/users_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:drive/theme/colors.dart';
 
 class addAds extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => UsersProviders(),
+      create: (context) => AdsProviders(),
       child: MaterialApp(
-          title: 'Users',
+          title: 'Ads',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primarySwatch: Colors.cyan,
@@ -31,9 +30,25 @@ class Admin_Ads extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black87,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        titleSpacing: 0.0,
+        elevation: 0.1,
+        backgroundColor: Colors.cyan.shade200,
+        title: Text('ADs'),
+        actions: <Widget>[
+          // new IconButton(
+          //     icon: Icon(
+          //       Icons.search,
+          //       color: Colors.white,
+          //     ),
+          //     onPressed: () {}),
+          // new IconButton(
+          //     icon: Icon(
+          //       Icons.shopping_cart,
+          //       color: Colors.white,
+          //     ),
+          //     onPressed: () {})
+        ],
       ),
       drawer: Drawer(
         child: ListView(
@@ -141,13 +156,13 @@ class Admin_Ads extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<UsersProviders>(
-          builder: (context, UsersProviders data, child) {
-            return data.getUsers.length != 0
+        child: Consumer<AdsProviders>(
+          builder: (context, AdsProviders data, child) {
+            return data.getAds.length != 0
                 ? ListView.builder(
-                    itemCount: data.getUsers.length,
+                    itemCount: data.getAds.length,
                     itemBuilder: (context, index) {
-                      return CardList(data.getUsers[index], index);
+                      return CardList(data.getAds[index], index);
                     },
                   )
                 : GestureDetector(
@@ -179,10 +194,10 @@ class Admin_Ads extends StatelessWidget {
 }
 
 class CardList extends StatelessWidget {
-  final Users users;
+  final Ads ads;
   int index;
 
-  CardList(this.users, this.index);
+  CardList(this.ads, this.index);
 
   @override
   Widget build(BuildContext context) {
@@ -202,8 +217,8 @@ class CardList extends StatelessWidget {
                 )),
             child: ListTile(
               leading: Icon(Icons.supervisor_account),
-              title: Text(users.name),
-              subtitle: Text(users.email),
+              title: Text(ads.car_name),
+              subtitle: Text(ads.car_number),
               trailing: Icon(
                 Icons.arrow_forward_ios,
                 color: Colors.black26,
@@ -219,8 +234,8 @@ class CardList extends StatelessWidget {
                 backgroundColor: Colors.red,
                 icon: Icons.delete,
                 onPressed: (context) {
-                  Provider.of<UsersProviders>(context, listen: false)
-                      .removeUsers(index);
+                  Provider.of<AdsProviders>(context, listen: false)
+                      .removeAds(index);
                 },
               ),
             ],
@@ -235,7 +250,7 @@ showAlertDialog(BuildContext context) {
   TextEditingController _car_name = TextEditingController();
   TextEditingController _car_number = TextEditingController();
   // Create button
-  Widget okButton = FlatButton(
+  Widget okButton = ElevatedButton(
     child: Text("Add Ads"),
     onPressed: () {
       Provider.of<AdsProviders>(context, listen: false)
