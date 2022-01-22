@@ -1,28 +1,22 @@
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 
-import 'package:flutter/material.dart';
-import 'package:drive/model/users.dart';
-import 'package:drive/model/data.dart';
+  FirebaseMessaging.onBackgroundMessage(backgroundMessage);
 
-class UsersProviders extends ChangeNotifier {
-  //Notes List
-  List<Users> _users = <Users>[];
-
-  List<Users> get getUsers {
-    return _users;
-  }
-
-// function to add data to list of notes
-  void addUsers(String name, String id, String email, String img) {
-    Users user = new Users(name, id, email, img);
-
-    _users.add(user);
-
-    notifyListeners();
-  }
-
-  // function to remove or delete users by using list index position
-  void removeUsers(int index) {
-    _users.removeAt(index);
-    notifyListeners();
-  }
+  runApp(MaterialApp(
+    theme: new ThemeData(scaffoldBackgroundColor: Colors.white),
+    debugShowCheckedModeBanner: false,
+    home: productPage(),
+  ));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CarProviders()),
+         ChangeNotifierProvider(create: (_) => UsersProviders()),
+         ChangeNotifierProvider(create: (_) => AdsProviders()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
