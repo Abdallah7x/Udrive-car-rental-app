@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drive/pages/admin_ads.dart';
 import 'package:drive/pages/admin_cars.dart';
 import 'package:drive/pages/admin_dashboard.dart';
@@ -29,13 +30,21 @@ class addProfile extends StatelessWidget {
 class Admin_User extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    UsersProviders userProvider =
+        Provider.of<UsersProviders>(context, listen: true);
+    Future.delayed(Duration(seconds: 0), () async {
+      userProvider.getusersCollectionFromFirebase().then((value) {});
+    });
+    List<Users> users = userProvider.getUsers;
     return Scaffold(
-      backgroundColor: Colors.black87,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        titleSpacing: 0.0,
+        elevation: 0.1,
+        backgroundColor: Colors.cyan.shade200,
+        title: Text('Users'),
+        actions: <Widget>[],
       ),
 
-     
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
@@ -112,15 +121,7 @@ class Admin_User extends StatelessWidget {
                   // ...
                 },
               ),*/
-            ListTile(
-              title: const Text('ADs'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => addAds()),
-                );
-              },
-            ),
+
             ListTile(
               title: const Text('Cars'),
               onTap: () {
@@ -128,13 +129,6 @@ class Admin_User extends StatelessWidget {
                   context,
                   MaterialPageRoute(builder: (context) => addCar()),
                 );
-              },
-            ),
-            ListTile(
-              title: const Text('Profile settings'),
-              onTap: () {
-                // Update the state of the app.
-                // ...
               },
             ),
           ],
@@ -149,7 +143,12 @@ class Admin_User extends StatelessWidget {
                 ? ListView.builder(
                     itemCount: data.getUsers.length,
                     itemBuilder: (context, index) {
-                      return CardList(data.getUsers[index], index);
+                      return GestureDetector(
+                          onTap: () {
+                            showAlertDialog(context,
+                                index: index, user: data.getUsers[index]);
+                          },
+                          child: CardList(data.getUsers[index], index));
                     },
                   )
                 : GestureDetector(
@@ -170,10 +169,10 @@ class Admin_User extends StatelessWidget {
         onPressed: () {
           showAlertDialog(context);
         },
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black,
         child: Icon(
           Icons.add,
-          color: Colors.black,
+          color: Colors.white,
         ),
       ),
     );
@@ -204,7 +203,7 @@ class CardList extends StatelessWidget {
                 )),
             child: ListTile(
               leading: Icon(Icons.supervisor_account),
-              title: Text(users.name),
+              title: Text(users.firstname),
               subtitle: Text(users.email),
               trailing: Icon(
                 Icons.arrow_forward_ios,
@@ -220,7 +219,8 @@ class CardList extends StatelessWidget {
                 label: 'Delete',
                 backgroundColor: Colors.red,
                 icon: Icons.delete,
-                onPressed: (context) {
+                onPressed: (context) async {
+                  List<Users> _users = <Users>[];
                   Provider.of<UsersProviders>(context, listen: false)
                       .removeUsers(index);
                 },
@@ -231,18 +231,30 @@ class CardList extends StatelessWidget {
   }
 }
 
-showAlertDialog(BuildContext context) {
-  TextEditingController _name = TextEditingController();
-  TextEditingController _id = TextEditingController();
+showAlertDialog(BuildContext context, {int index = null, Users user = null}) {
+  TextEditingController _firstname = TextEditingController();
+//  TextEditingController _id = TextEditingController();
   TextEditingController _email = TextEditingController();
-  TextEditingController _img = TextEditingController();
+  TextEditingController _secondname = TextEditingController();
   // Create button
-  Widget okButton = FlatButton(
-    child: Text("ADD USER"),
+
+  _firstname.text = (user?.firstname) ?? "";
+  _email.text = (user?.email) ?? "";
+  _secondname.text = (user?.secondname) ?? "";
+
+  // Create button
+  Widget okButton = ElevatedButton(
+    child: Text("Confirm"),
     onPressed: () {
-      Provider.of<UsersProviders>(context, listen: false)
-          .addUsers(_name.text, _id.text, _email.text, _img.text);
-      // Navigator.of(context).pop();
+      Navigator.of(context, rootNavigator: true).pop();
+
+      if (user != null) {
+        Provider.of<UsersProviders>(context, listen: false).editUsers(
+            index, user.id, _firstname.text, _email.text, _secondname.text);
+      } else {
+        Provider.of<UsersProviders>(context, listen: false)
+            .addUsers(_firstname.text, _email.text, _secondname.text);
+      }
     },
   );
 
@@ -253,24 +265,16 @@ showAlertDialog(BuildContext context) {
       mainAxisSize: MainAxisSize.min,
       children: [
         TextField(
-          controller: _name,
-          decoration: InputDecoration(hintText: "Enter NAME"),
+          controller: _firstname,
+          decoration: InputDecoration(hintText: "Enter FIRSTNAME"),
+        ),
+        TextField(
+          controller: _secondname,
+          decoration: InputDecoration(hintText: "Enter The SECONDNAME"),
         ),
         TextField(
           controller: _email,
           decoration: InputDecoration(hintText: "Enter EMAIL"),
-        ),
-        TextField(
-          controller: _id,
-          decoration: InputDecoration(hintText: "Enter The ID"),
-        ),
-        SizedBox(height: 30),
-        FlatButton(
-          child: Text(
-            'Upload image',
-            style: TextStyle(fontSize: 20.0),
-          ),
-          onPressed: () {},
         ),
       ],
     ),
