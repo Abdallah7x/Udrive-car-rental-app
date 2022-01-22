@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drive/model/cars.dart';
 import 'package:drive/model/cars.dart';
 import 'package:drive/pages/admin_ads.dart';
@@ -35,12 +36,19 @@ class Admin_Car extends StatefulWidget {
 class _Admin_CarState extends State<Admin_Car> {
   @override
   Widget build(BuildContext context) {
+    CarProviders carProvider = Provider.of<CarProviders>(context, listen: true);
+    Future.delayed(Duration(seconds: 0), () async {
+      carProvider.getCarsCollectionFromFirebase().then((value) {});
+    });
+    List<Car> cars = carProvider.getCar;
     return Scaffold(
-      backgroundColor: Colors.black87,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        titleSpacing: 0.0,
+        elevation: 0.1,
+        backgroundColor: Colors.cyan.shade200,
+        title: Text('Cars'),
+        actions: <Widget>[],
       ),
-    
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
@@ -117,15 +125,15 @@ class _Admin_CarState extends State<Admin_Car> {
                   // ...
                 },
               ),*/
-            ListTile(
-              title: const Text('ADs'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => addAds()),
-                );
-              },
-            ),
+            // ListTile(
+            //   title: const Text('ADs'),
+            //   onTap: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(builder: (context) => addAds()),
+            //     );
+            //   },
+            // ),
             ListTile(
               title: const Text('Cars'),
               onTap: () {
@@ -135,16 +143,17 @@ class _Admin_CarState extends State<Admin_Car> {
                 );
               },
             ),
-            ListTile(
-              title: const Text('Profile settings'),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
+            // ListTile(
+            //   title: const Text('Profile settings'),
+            //   onTap: () {
+            //     // Update the state of the app.
+            //     // ...
+            //   },
+            // ),
           ],
         ),
-      ),  body: Padding(
+      ),
+      body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Consumer<CarProviders>(
           builder: (context, CarProviders data, child) {
@@ -152,7 +161,12 @@ class _Admin_CarState extends State<Admin_Car> {
                 ? ListView.builder(
                     itemCount: data.getCar.length,
                     itemBuilder: (context, index) {
-                      return CardList(data.getCar[index], index);
+                      return GestureDetector(
+                          onTap: () {
+                            showAlertDialog(context,
+                                index: index, car: data.getCar[index]);
+                          },
+                          child: CardList(data.getCar[index], index));
                     },
                   )
                 : GestureDetector(
@@ -234,18 +248,29 @@ class CardList extends StatelessWidget {
   }
 }
 
-showAlertDialog(BuildContext context) {
+showAlertDialog(BuildContext context, {int index = null, Car car = null}) {
   TextEditingController _name = TextEditingController();
   TextEditingController _number = TextEditingController();
   TextEditingController _type = TextEditingController();
   TextEditingController _rate = TextEditingController();
+
+  _name.text = (car?.name) ?? "";
+  _number.text = (car?.number) ?? "";
+  _type.text = (car?.type) ?? "";
+  _rate.text = (car?.rate) ?? "";
   // Create button
-  Widget okButton = FlatButton(
-    child: Text("Add cars"),
+  Widget okButton = ElevatedButton(
+    child: Text("Confirm"),
     onPressed: () {
-      Provider.of<CarProviders>(context, listen: false)
-          .addCar(_name.text, _number.text, _type.text, _rate.text);
-      // Navigator.of(context).pop();
+      Navigator.of(context, rootNavigator: true).pop();
+
+      if (car != null) {
+        Provider.of<CarProviders>(context, listen: false).editCar(
+            index, car.id, _name.text, _number.text, _type.text, _rate.text);
+      } else {
+        Provider.of<CarProviders>(context, listen: false)
+            .addCar(_name.text, _number.text, _type.text, _rate.text);
+      }
     },
   );
 
