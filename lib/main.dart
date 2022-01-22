@@ -1,30 +1,17 @@
-import 'package:drive/pages/request.dart';
+import 'package:drive/pages/product_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:drive/pages/login.dart';
-import 'package:drive/provider/cart_functions.dart';
-import 'package:drive/pages/product_page.dart';
-import 'package:provider/provider.dart';
-import 'package:drive/pages/login.dart';
+import 'package:drive/pages/login1.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  var email = preferences.getString('email');
   runApp(MaterialApp(
     theme: new ThemeData(scaffoldBackgroundColor: Colors.white),
     debugShowCheckedModeBanner: false,
-    home: MyLogin(),
+    home: email == null ? LoginScreen() : productPage(),
   ));
-  runApp(MyApp()
-      // MaterialApp(home: Text("NEW"))
-      );
-}
-
-class MyApp extends StatelessWidget {
-  final _drive = Firebase.initializeApp();
-  build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => CartProvider(),
-      child: MaterialApp(home: Scaffold(body: MyLogin())),
-    );
-  }
 }
